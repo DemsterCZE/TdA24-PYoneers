@@ -20,8 +20,7 @@ db.init_app(app)
 
 @app.route('/')
 def hello_world():  # put application's code here
-    return "Hello Tour de App! Edited Twice :)"
-
+    return "Mužeme pracovat"
 
 if __name__ == '__main__':
     app.run()
