@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 flask = "*"
 colorama = "*"
+flask_mysqldb = "*"
 
 [dev-packages]
 
