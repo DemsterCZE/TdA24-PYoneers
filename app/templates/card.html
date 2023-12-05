@@ -2,10 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>{{ profile.first_name }} {{ profile.last_name }}</title>
 </head>
-<body>
-<h1>Zde tvořte</h1>
+
+<body class="bg-dark">
+
+<div class="row w-100 justify-content-center">
+    <div class="col-12 col-lg-8 m-5 card">
+        <div class="card-header">
+            <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+        </div>
+
+        <div class="card-body row">
+            <div class="text-center col-12 col-lg-4">
+                <img class="w-100" src="{{ profile.picture_url }}">
+            </div>
+
+            <div class="col-12 col-lg-8">
+                <ul>
+                    <li>
+                        <a>Middle Name: {{ profile.middle_name }}</a>
+                        <a>Title Before: {{ profile.title_before }}</a>
+                        <a>Title After: {{ profile.title_after }}</a>
+                        <a>Location: {{ profile.location }}</a>
+                        <a>Claim: {{ profile.claim }}</a>
+                        <a>Location: {{ profile.location }}</a>
+                        <a>Price/hour: {{ profile.price_per_hour }}</a>
+                    </li>
+                </ul>
+
+                <h5>Tags:</h5>
+                <ul>
+                    {% for tag in profile.tags %}
+                    <li>{{ tag.name }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h5>Phone Numbers:</h5>
+                <ul>
+                    {% for phone in profile.contact.telephone_numbers %}
+                    <li>{{ tag.phone }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h5>Emails:</h5>
+                <ul>
+                    {% for email in profile.contact.emails %}
+                    <li>{{ tag.email }}</li>
+                    {% endfor %}
+                </ul>
+
+                <br>
+                <hr>
+                <a>{{ profile.bio }}</a>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<script src="js/main.js"></script>
+
 </body>
 </html>
