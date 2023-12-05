@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <title>{{ profile.first_name }} {{ profile.last_name }}</title>
+    <title>TdA - {% if profile.title_before != null: %}{{ profile.title_before }} {% endif %}{{ profile.first_name }}{%
+        if profile.middle_name != null: %} {{ profile.middle_name }}{% endif %} {{ profile.last_name }}{% if
+        profile.title_after != null: %}, {{ profile.title_after }}{% endif %}</title>
 </head>
 
 <body class="bg-dark">
@@ -15,51 +17,71 @@
 <div class="row w-100 justify-content-center">
     <div class="col-12 col-lg-8 m-5 card">
         <div class="card-header">
-            <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+            <h1>{% if profile.title_before != null: %}{{ profile.title_before }} {% endif %}{{ profile.first_name }}{%
+                if profile.middle_name != null: %} {{ profile.middle_name }}{% endif %} {{ profile.last_name }}{% if
+                profile.title_after != null: %}, {{ profile.title_after }}{% endif %}</h1>
         </div>
 
         <div class="card-body row">
+            {% if profile.picture_url != null: %}
             <div class="text-center col-12 col-lg-4">
-                <img class="w-100" src="{{ profile.picture_url }}">
+                <img class="w-100" src="{{ profile.picture_url }}" alt="{{ profile.first_name }} {{ profile.last_name }}">
             </div>
+            {% endif %}
 
             <div class="col-12 col-lg-8">
-                <ul>
+                <ul class="list-unstyled">
+                    {% if profile.claim != null: %}
                     <li>
-                        <a>Middle Name: {{ profile.middle_name }}</a>
-                        <a>Title Before: {{ profile.title_before }}</a>
-                        <a>Title After: {{ profile.title_after }}</a>
-                        <a>Location: {{ profile.location }}</a>
-                        <a>Claim: {{ profile.claim }}</a>
-                        <a>Location: {{ profile.location }}</a>
-                        <a>Price/hour: {{ profile.price_per_hour }}</a>
+                        <h5>
+                            <i class="fa fa-quote-right"></i>
+                            Osobní citát: {{ profile.claim }}
+                        </h5>
                     </li>
+                    {% endif %}
+                    {% if profile.location != null: %}
+                    <li>
+                        <h5>
+                            <i class="fa fa-location-arrow"></i>
+                            Lokace: {{ profile.location }}
+                        </h5>
+                    </li>
+                    {% endif %}
+                    {% if profile.price_per_hour != null: %}
+                    <li>
+                        <h5>
+                            <i class="fa fa-dollar"></i>
+                            Hodinová sazba: {{ profile.price_per_hour }}
+                        </h5>
+                    </li>
+                    {% endif %}
                 </ul>
 
-                <h5>Tags:</h5>
+                <h5><i class="fa fa fa-tag"></i> Tagy:</h5>
                 <ul>
                     {% for tag in profile.tags %}
                     <li>{{ tag.name }}</li>
                     {% endfor %}
                 </ul>
 
-                <h5>Phone Numbers:</h5>
+                <h5><i class="fa fa fa-phone"></i> Telefonní čísla:</h5>
                 <ul>
                     {% for phone in profile.contact.telephone_numbers %}
                     <li>{{ tag.phone }}</li>
                     {% endfor %}
                 </ul>
 
-                <h5>Emails:</h5>
+                <h5><i class="fa fa-at"></i> E-mailové adresy:</h5>
                 <ul>
                     {% for email in profile.contact.emails %}
                     <li>{{ tag.email }}</li>
                     {% endfor %}
                 </ul>
 
-                <br>
+                {% if profile.bio != null: %}
                 <hr>
                 <a>{{ profile.bio }}</a>
+                {% endfor %}
             </div>
         </div>
 
