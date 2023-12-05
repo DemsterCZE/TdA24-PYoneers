@@ -37,9 +37,9 @@ def data():
 
 @app.route('/lecturer')
 def card():
-    with open("./data/lecturer.json") as data:
+    with open("app/data/lecturer.json", encoding='utf-8') as data:
         profile=json.load(data)
-    return render_template("card.html", data=data) #data je souhrnný obsah v json souboru ve složce data. V rámci html k nim budeme přistupovat {{data.udaj}}
+    return render_template("card.html", profile=profile) #data je souhrnný obsah v json souboru ve složce data. V rámci html k nim budeme přistupovat {{data.udaj}}
 
 if __name__ == '__main__':
     app.run()
