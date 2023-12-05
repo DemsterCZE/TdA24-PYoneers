@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <link rel="icon" href="assets/arrow/png/black-blue.png">
+
     <title>TdA - {% if profile.title_before != null: %}{{ profile.title_before }} {% endif %}{{ profile.first_name }}{%
         if profile.middle_name != null: %} {{ profile.middle_name }}{% endif %} {{ profile.last_name }}{% if
         profile.title_after != null: %}, {{ profile.title_after }}{% endif %}</title>
@@ -25,7 +27,7 @@
         <div class="card-body row">
             {% if profile.picture_url != null: %}
             <div class="text-center col-12 col-lg-4">
-                <img class="w-100" src="{{ profile.picture_url }}"
+                <img class="w-100 rounded-4" src="{{ profile.picture_url }}"
                      alt="{{ profile.first_name }} {{ profile.last_name }}">
             </div>
             {% endif %}
