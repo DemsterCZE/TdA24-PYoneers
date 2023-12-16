@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link rel="icon" href="assets/arrow/png/black-blue.png">
+    <link rel="icon" href="{{url_for('static',filename='assets/arrow/png/black-blue.png')}}">
 
     <title>TdA - {% if profile.title_before != null: %}{{ profile.title_before }} {% endif %}{{ profile.first_name }}{%
         if profile.middle_name != null: %} {{ profile.middle_name }}{% endif %} {{ profile.last_name }}{% if
@@ -83,7 +83,7 @@
 
                 {% if profile.bio != null: %}
                 <hr>
-                <a>{{ profile.bio }}</a>
+                <a>{{ profile.bio | safe }}</a>
                 {% endif %}
             </div>
         </div>
