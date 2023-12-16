@@ -2,10 +2,98 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="icon" href="{{url_for('static',filename='assets/arrow/png/black-blue.png')}}">
+
+    <title>TdA - {% if profile.title_before != null: %}{{ profile.title_before }} {% endif %}{{ profile.first_name }}{%
+        if profile.middle_name != null: %} {{ profile.middle_name }}{% endif %} {{ profile.last_name }}{% if
+        profile.title_after != null: %}, {{ profile.title_after }}{% endif %}</title>
 </head>
-<body>
-<h1>Zde tvořte</h1>
+
+<body class="bg-dark">
+
+<div class="row w-100 justify-content-center">
+    <div class="col-12 col-lg-8 m-5 card">
+        <div class="card-header">
+            <h1>{% if profile.title_before != null: %}{{ profile.title_before }} {% endif %}{{ profile.first_name }}{%
+                if profile.middle_name != null: %} {{ profile.middle_name }}{% endif %} {{ profile.last_name }}{% if
+                profile.title_after != null: %}, {{ profile.title_after }}{% endif %}</h1>
+        </div>
+
+        <div class="card-body row">
+            {% if profile.picture_url != null: %}
+            <div class="text-center col-12 col-lg-4">
+                <img class="w-100 rounded-4" src="{{ profile.picture_url }}"
+                     alt="{{ profile.first_name }} {{ profile.last_name }}">
+            </div>
+            {% endif %}
+
+            <div class="col-12 col-lg-8">
+                <ul class="list-unstyled">
+                    {% if profile.claim != null: %}
+                    <li>
+                        <h5>
+                            <i class="fa fa-quote-right"></i>
+                            Osobní citát: {{ profile.claim }}
+                        </h5>
+                    </li>
+                    {% endif %}
+                    {% if profile.location != null: %}
+                    <li>
+                        <h5>
+                            <i class="fa fa-location-arrow"></i>
+                            Lokace: {{ profile.location }}
+                        </h5>
+                    </li>
+                    {% endif %}
+                    {% if profile.price_per_hour != null: %}
+                    <li>
+                        <h5>
+                            <i class="fa fa-dollar"></i>
+                            Hodinová sazba: {{ profile.price_per_hour }} CZK
+                        </h5>
+                    </li>
+                    {% endif %}
+                </ul>
+
+                <h5><i class="fa fa fa-tag"></i> Tagy:</h5>
+                <ul>
+                    {% for tag in profile.tags %}
+                    <li>{{ tag.name }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h5><i class="fa fa fa-phone"></i> Telefonní čísla:</h5>
+                <ul>
+                    {% for phone in profile.contact.telephone_numbers %}
+                    <li>{{ phone }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h5><i class="fa fa-at"></i> E-mailové adresy:</h5>
+                <ul>
+                    {% for email in profile.contact.emails %}
+                    <li>{{ email }}</li>
+                    {% endfor %}
+                </ul>
+
+                {% if profile.bio != null: %}
+                <hr>
+                <a>{{ profile.bio | safe }}</a>
+                {% endif %}
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<script src="{{url_for('static',filename='js/main.js')}}"></script>
+
 </body>
 </html>
