@@ -10,12 +10,12 @@ app.config.from_mapping(
     DATABASE=os.path.join(app.instance_path, 'tourdeflask.sqlite'),
 )
 
-"""mysql = MySQL(app)
+mysql = MySQL(app)
 
-app.config["MYSQL_HOST"] = ""
-app.config["MYSQL_USER"] = ""
-app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = """""
+app.config["MYSQL_HOST"] = "dbs.spskladno.cz"
+app.config["MYSQL_USER"] = "student3"
+app.config["MYSQL_PASSWORD"] = "spsnet"
+app.config["MYSQL_DB"] = "vyuka3"
 
 
 # ensure the instance folder exists
