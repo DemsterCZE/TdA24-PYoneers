@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask,render_template,jsonify
+from flask import Flask,render_template,jsonify,request
 from flask_mysqldb import MySQL, MySQLdb
 from . import db
 import json
@@ -40,6 +40,29 @@ def card():
     with open("app/data/lecturer.json", encoding='utf-8') as data:
         profile=json.load(data)
     return render_template("card.html", profile=profile) #data je souhrnný obsah v json souboru ve složce data. V rámci html k nim budeme přistupovat {{data.udaj}}
+
+@app.route("/lecturer/create", methods=["POST"])
+def add():
+    if request.method=="POST":
+        title_before=request.form.get("title_before")
+        first_name=request.form.get("first_name")
+        middle_name=request.form.get("middle_name")
+        last_name=request.form.get("last_name")
+        title_after=request.form.get("title_after")
+        picture_url=request.form.get("picture_url")
+        location=request.form.get("location")
+        claim=request.form.get("claim")
+        bio=request.form.get("bio")
+        price_per_hour=request.form.get("price_per_hour")
+        telephone_numbers=request.form.get("telephone_numbers")
+        emails=request.form.get("emails")
+        tags_names=request.form.get("tags_names")
+        cur = mysql.connection.cursor()
+        cur.execute(f"INSERT INTO table1 (title_before, first_name, middle_name, last_name, title_after, picture_url, location, claim, bio, price_per_hour, telephone_numbers, emails, tags_names) VALUES ({title_before},{first_name},{middle_name},{last_name},{title_after},{picture_url},{location},{claim},{bio},{price_per_hour},{telephone_numbers},{emails},{tags_names})")
+        mysql.connection.commit()
+        cur.close()
+
+
 
 if __name__ == '__main__':
     app.run()

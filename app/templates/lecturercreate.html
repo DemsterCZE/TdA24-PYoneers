@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="icon" href="{{url_for('static',filename='assets/arrow/png/black-blue.png')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <form>
+        <label for="title_before">Titul před jménem:</label><br>
+        <input type="text" id="title_before" name="title_before"><br>
+        <label for="first_name">Křestní jméno:</label><br>
+        <input type="text" id="first_name" name="first_name" required><br>
+        <label for="middle_name">Prostřední jméno</label><br>
+        <input type="text" id="middle_name" name="middle_name"><br>
+        <label for="last_name">Příjmení</label><br>
+        <input type="text" name="last_name" id="last_name" required><br>
+        <label for="title_after">Titul za jménem: </label><br>
+        <input type="text" name="title_after" id="title_after"><br>
+        <label for="picture_url">URL profilového obrázku: </label><br>
+        <input type="text" name="picture_url" id="picture_url"><br>
+        <label for="location">Lokace: </label><br>
+        <input type="text" name="location" id="location"><br>
+        <label for="claim">Osobní citát: </label><br>
+        <input type="text" name="claim" id="claim"><br>
+        <label for="bio">Osobní biografie:</label><br>
+        <input type="text" name="bio" id="bio"><br>
+        <label for="price_per_hour">Cena za hodinu: </label><br>
+        <input type="number" name="price_per_hour" id="price_per_hour"><br>
+        <label for="telephone_numbers">Telefonní čísla (oddělujte je, prosím, čárkami): </label><br>
+        <input type="text" name="telephone_numbers" id="telephone_numbers"><br>
+        <label for="emails">E-Maily (oddělujete je, prosím, čárkami): </label><br>
+        <input type="text" name="emails" id="emails"><br>
+        <label for="tags_names">Tagy: </label><br>
+        <input type="text" name="tags_names" id="tags_names"><br>
+        <input type="submit" value="Odeslat">
+
+
+
+        
+
+    </form>
+    
+</body>
+</html>
