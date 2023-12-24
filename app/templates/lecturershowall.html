@@ -70,16 +70,20 @@
 
                 <h5><i class="fa fa fa-phone"></i> Telefonní čísla:</h5>
                 <ul>
-                    {% for phone in profile.contact.telephone_numbers %}
-                    <li>{{ phone }}</li>
-                    {% endfor %}
+                    
+                    {% for item in profile.numbers %}
+                    <li>{{ item }}</li>
+                    {% endfor %} 
+               
                 </ul>
 
                 <h5><i class="fa fa-at"></i> E-mailové adresy:</h5>
                 <ul>
-                    {% for email in profile.contact.emails %}
-                    <li>{{ email }}</li>
-                    {% endfor %}
+                    
+                    {% for item in profile.emails %}
+                    <li>{{ item }}</li>
+                    {% endfor %} 
+                
                 </ul>
 
                 {% if profile.bio != null: %}
