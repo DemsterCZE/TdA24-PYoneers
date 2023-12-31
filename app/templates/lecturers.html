@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{url_for('static',filename='assets/arrow/png/black-blue.png')}}">
+    <title>Lecturers</title>
+    <style>
+        table {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+          }
+          
+          table td, table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+          }
+          
+          table tr:nth-child(even){background-color: #f2f2f2;}
+          
+          table tr:hover {background-color: #ddd;}
+          
+            table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+          }
+    </style>
+</head>
+<body style="background-color: grey;">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Titul</th>
+            <th>Jméno</th>
+            <th>Prostřední jméno</th>
+            <th>Příjmení</th>
+            <th>Titul po</th>
+            <th>Profilovka</th>
+            <th>Lokace</th>
+            <th>Citát</th>
+            <th>Biografie</th>
+            <th>Tag</th>
+            <th>Cena za hodinu</th>
+            <th>Telefonní čísla</th>
+            <th>E-Maily</th>
+        </tr>
+        <tr>
+            {% for row in data %}
+            {% set index = namespace(value=0) %}
+                {% for cell in row %}
+                    {%if index.value != 6 %}
+                        <td>{{cell}}</td>
+                    {%else%}
+                        <td><img src="{{cell}}" alt="chyba" width="150" height="150" style="border-radius: 50%;"></td>
+                    {%endif%}
+                    {% set index.value = index.value + 1 %}
+                {% endfor %}
+        </tr>
+        {% endfor %}
+
+    </table>
+</body>
+</html>
