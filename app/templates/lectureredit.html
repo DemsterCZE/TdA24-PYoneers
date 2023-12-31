@@ -7,16 +7,18 @@
     <title>Document</title>
 </head>
 <body>
-
-    <form action="{{ url_for('addLecturer')}}" method="POST">
-        <label for="title_before">Titul před jménem:</label><br>
-        <input type="text" id="title_before" name="title_before"><br>
-        <label for="first_name">Křestní jméno:</label><br>
-        <input type="text" id="first_name" name="first_name" required><br>
+    <h1>Vyplňte pole, která chcete změnit, povinné je pouze ID</h1>
+    <form action="{{ url_for('editLecturer', id=id)}}" method="POST">
+        <label for="id">ID</label><br>
+        <input type="text" id="id" name="id" required><br>
+        <label for="title_before_edit">Titul před jménem:</label><br>
+        <input type="text" id="title_before_edit" name="title_before_edit"><br>
+        <label for="first_name_edit">Křestní jméno:</label><br>
+        <input type="text" id="first_name_edit" name="first_name_edit"><br>
         <label for="middle_name">Prostřední jméno</label><br>
         <input type="text" id="middle_name" name="middle_name"><br>
         <label for="last_name">Příjmení</label><br>
-        <input type="text" name="last_name" id="last_name" required><br>
+        <input type="text" name="last_name" id="last_name"><br>
         <label for="title_after">Titul za jménem: </label><br>
         <input type="text" name="title_after" id="title_after"><br>
         <label for="picture_url">URL profilového obrázku: </label><br>

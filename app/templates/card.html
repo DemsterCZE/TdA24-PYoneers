@@ -9,9 +9,9 @@
 
     <link rel="icon" href="{{url_for('static',filename='assets/arrow/png/black-blue.png')}}">
 
-    <title>TdA - {% if profile.title_before != null: %}{{ profile.title_before }} {% endif %}{{ profile.first_name }}{%
-        if profile.middle_name != null: %} {{ profile.middle_name }}{% endif %} {{ profile.last_name }}{% if
-        profile.title_after != null: %}, {{ profile.title_after }}{% endif %}</title>
+    <title>TdA - {% if profile[1] != null: %}{{ profile[1] }} {% endif %}{{ profile[2]}}{%
+        if profile[3] != null: %} {{ profile[3] }}{% endif %} {{ profile[4] }}{% if
+        profile[5] != null: %}, {{ profile[5] }}{% endif %}</title>
 </head>
 
 <body class="bg-dark">
@@ -19,42 +19,42 @@
 <div class="row w-100 justify-content-center">
     <div class="col-12 col-lg-8 m-5 card">
         <div class="card-header">
-            <h1>{% if profile.title_before != null: %}{{ profile.title_before }} {% endif %}{{ profile.first_name }}{%
-                if profile.middle_name != null: %} {{ profile.middle_name }}{% endif %} {{ profile.last_name }}{% if
-                profile.title_after != null: %}, {{ profile.title_after }}{% endif %}</h1>
+            <h1>{% if profile[1] != null: %}{{ profile[1] }} {% endif %}{{ profile[2]}}{%
+                if profile[3] != null: %} {{ profile[3] }}{% endif %} {{ profile[4] }}{% if
+                profile[5] != null: %}, {{ profile[5] }}{% endif %}</h1>
         </div>
 
         <div class="card-body row">
-            {% if profile.picture_url != null: %}
+            {% if profile[6] != null: %}
             <div class="text-center col-12 col-lg-4">
-                <img class="w-100 rounded-4" src="{{ profile.picture_url }}"
-                     alt="{{ profile.first_name }} {{ profile.last_name }}">
+                <img class="w-100 rounded-4" src="{{ profile[6] }}"
+                     alt="{{ profile[2] }} {{ profile[3] }}">
             </div>
             {% endif %}
 
             <div class="col-12 col-lg-8">
                 <ul class="list-unstyled">
-                    {% if profile.claim != null: %}
+                    {% if profile[8] != null: %}
                     <li>
                         <h5>
                             <i class="fa fa-quote-right"></i>
-                            Osobní citát: {{ profile.claim }}
+                            Osobní citát: {{ profile[8] }}
                         </h5>
                     </li>
                     {% endif %}
-                    {% if profile.location != null: %}
+                    {% if profile[7] != null: %}
                     <li>
                         <h5>
                             <i class="fa fa-location-arrow"></i>
-                            Lokace: {{ profile.location }}
+                            Lokace: {{ profile[7] }}
                         </h5>
                     </li>
                     {% endif %}
-                    {% if profile.price_per_hour != null: %}
+                    {% if profile[11] != null: %}
                     <li>
                         <h5>
                             <i class="fa fa-dollar"></i>
-                            Hodinová sazba: {{ profile.price_per_hour }} CZK
+                            Hodinová sazba: {{ profile[11] }} CZK
                         </h5>
                     </li>
                     {% endif %}
@@ -62,28 +62,28 @@
 
                 <h5><i class="fa fa fa-tag"></i> Tagy:</h5>
                 <ul>
-                    {% for tag in profile.tags %}
-                    <li>{{ tag.name }}</li>
-                    {% endfor %}
+                    
+                    <li>{{ profile[10] }}</li>
+                    
                 </ul>
 
                 <h5><i class="fa fa fa-phone"></i> Telefonní čísla:</h5>
                 <ul>
-                    {% for phone in profile.contact.telephone_numbers %}
-                    <li>{{ phone }}</li>
-                    {% endfor %}
+                    
+                    <li>{{ profile[12] }}</li>
+                    
                 </ul>
 
                 <h5><i class="fa fa-at"></i> E-mailové adresy:</h5>
                 <ul>
-                    {% for email in profile.contact.emails %}
-                    <li>{{ email }}</li>
-                    {% endfor %}
+                    
+                    <li>{{ profile[13] }}</li>
+                    
                 </ul>
 
-                {% if profile.bio != null: %}
+                {% if profile[9] != null: %}
                 <hr>
-                <a>{{ profile.bio | safe }}</a>
+                <a>{{ profile[9] | safe }}</a>
                 {% endif %}
             </div>
         </div>
