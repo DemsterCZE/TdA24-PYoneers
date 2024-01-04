@@ -8,42 +8,75 @@
 </head>
 <body>
     <h1>Vyplňte pole, která chcete změnit, povinné je pouze ID</h1>
-    <form action="{{ url_for('editLecturer', id=id)}}" method="POST">
+    <form action="{{ url_for('editLecturer', id=id)}}" method="POST" id="putform">
+        <input type="hidden" name="_METHOD" value="PUT"/>
         <label for="id">ID</label><br>
         <input type="text" id="id" name="id" required><br>
         <label for="title_before_edit">Titul před jménem:</label><br>
         <input type="text" id="title_before_edit" name="title_before_edit"><br>
         <label for="first_name_edit">Křestní jméno:</label><br>
         <input type="text" id="first_name_edit" name="first_name_edit"><br>
-        <label for="middle_name">Prostřední jméno</label><br>
-        <input type="text" id="middle_name" name="middle_name"><br>
-        <label for="last_name">Příjmení</label><br>
-        <input type="text" name="last_name" id="last_name"><br>
-        <label for="title_after">Titul za jménem: </label><br>
-        <input type="text" name="title_after" id="title_after"><br>
-        <label for="picture_url">URL profilového obrázku: </label><br>
-        <input type="text" name="picture_url" id="picture_url"><br>
-        <label for="location">Lokace: </label><br>
-        <input type="text" name="location" id="location"><br>
-        <label for="claim">Osobní citát: </label><br>
-        <input type="text" name="claim" id="claim"><br>
-        <label for="bio">Osobní biografie:</label><br>
-        <input type="text" name="bio" id="bio"><br>
-        <label for="price_per_hour">Cena za hodinu: </label><br>
-        <input type="number" name="price_per_hour" id="price_per_hour"><br>
-        <label for="telephone_numbers">Telefonní čísla (oddělujte je, prosím, čárkami): </label><br>
-        <input type="text" name="telephone_numbers" id="telephone_numbers"><br>
-        <label for="emails">E-Maily (oddělujete je, prosím, čárkami): </label><br>
-        <input type="text" name="emails" id="emails"><br>
-        <label for="tags_names">Tagy: </label><br>
-        <input type="text" name="tags_names" id="tags_names"><br>
+        <label for="middle_name_edit">Prostřední jméno</label><br>
+        <input type="text" id="middle_name_edit" name="middle_name_edit"><br>
+        <label for="last_name_edit">Příjmení</label><br>
+        <input type="text" name="last_name_edit" id="last_name_edit"><br>
+        <label for="title_after_edit">Titul za jménem: </label><br>
+        <input type="text" name="title_after_edit" id="title_after_edit"><br>
+        <label for="picture_url_edit">URL profilového obrázku: </label><br>
+        <input type="text" name="picture_url_edit" id="picture_url_edit"><br>
+        <label for="location_edit">Lokace: </label><br>
+        <input type="text" name="location_edit" id="location_edit"><br>
+        <label for="claim_edit">Osobní citát: </label><br>
+        <input type="text" name="claim_edit" id="claim_edit"><br>
+        <label for="bio_edit">Osobní biografie:</label><br>
+        <input type="text" name="bio_edit" id="bio_edit"><br>
+        <label for="price_per_hour_edit">Cena za hodinu: </label><br>
+        <input type="number" name="price_per_hour_edit" id="price_per_hour_edit"><br>
+        <label for="telephone_numbers_edit">Telefonní čísla (oddělujte je, prosím, čárkami): </label><br>
+        <input type="text" name="telephone_numbers_edit" id="telephone_numbers_edit"><br>
+        <label for="emails_edit">E-Maily (oddělujete je, prosím, čárkami): </label><br>
+        <input type="text" name="emails_edit" id="emails_edit"><br>
+        <label for="tags_names_edit">Tagy: </label><br>
+        <input type="text" name="tags_names_edit" id="tags_names_edit"><br>
         <input type="submit" value="Odeslat">
+        
 
 
 
         
 
     </form>
+
+    <script>
+        function overridePut() {
+          const formData = new FormData(document.getElementById('putform'));
+    
+          fetch('/your/api/endpoint', {
+            method: 'PUT',
+            body: formData,
+            headers: {
+              // You may need to set appropriate headers based on your API requirements
+              // For example, if you are sending JSON data:
+              // 'Content-Type': 'application/json',
+            },
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json(); // You may use response.text() or other methods based on the expected response format
+          })
+          .then(data => {
+            // Handle the successful response data
+            console.log(data);
+          })
+          .catch(error => {
+            // Handle errors
+            console.error('Error:', error);
+          });
+        }
+      </script>
+    
     
 </body>
 </html>

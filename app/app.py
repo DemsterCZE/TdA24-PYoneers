@@ -1,11 +1,36 @@
 import os
 
-from flask import Flask,render_template,jsonify,request
+from flask import Flask,render_template,jsonify,request,abort
 from flask_mysqldb import MySQL, MySQLdb
 from . import db
 import json
 
+class HTTPMethodOverrideMiddleware(object):
+    allowed_methods = frozenset([
+        'GET',
+        'HEAD',
+        'POST',
+        'DELETE',
+        'PUT',
+        'PATCH',
+        'OPTIONS'
+    ])
+    bodyless_methods = frozenset(['GET', 'HEAD', 'OPTIONS', 'DELETE'])
+
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        method = environ.get('HTTP_X_HTTP_METHOD_OVERRIDE', '').upper()
+        if method in self.allowed_methods:
+            environ['REQUEST_METHOD'] = method
+        if method in self.bodyless_methods:
+            environ['CONTENT_LENGTH'] = '0'
+        return self.app(environ, start_response)
+
 app = Flask(__name__)
+app.wsgi_app=HTTPMethodOverrideMiddleware(app.wsgi_app)
+
 app.config.from_mapping(
     DATABASE=os.path.join(app.instance_path, 'tourdeflask.sqlite'),
 )
@@ -77,67 +102,73 @@ def showAll():
 
 @app.route('/api/lecturer/<int:id>')
 def showLecturer(id):
-    cur =mysql.connection.cursor()
-    cur.execute("select * from table1 where id=(%s)",(id,))
-    profile = cur.fetchone()
-    print(profile[10])
-    cur.close()
-    return render_template("card.html", profile=profile)
+    try:
+        cur =mysql.connection.cursor()
+        cur.execute("select * from table1 where id=(%s)",(id,))
+        profile = cur.fetchone()
+        print(profile[10])
+        cur.close()
+        return render_template("card.html", profile=profile)
+    except:
+        abort(404)
 
 @app.route('/api/lecturer/<int:id>/edit')
 def preEditLecturer(id):
     return render_template("lectureredit.html", id=id)
 
-@app.route('/api/lecturer/<int:id>', methods=["POST"])
-def editLecturer(id):    
-    if request.method=="POST":
-        cur =mysql.connection.cursor()
-        print(id)
-        cur.execute("SELECT * FROM table1 WHERE id=(%s)",(id,))
-        profile = cur.fetchone()
-      
-        
-        cur.close()
-        id=str(request.form.get("id"))
-        titleBefore=str(request.form.get("title_before_edit"))
-        firstName=str(request.form.get("first_name_edit"))
-        middleName=str(request.form.get("middle_name"))
-        lastName=str(request.form.get("last_name"))
-        titleAfter=str(request.form.get("title_after"))
-        pictureUrl=str(request.form.get("picture_url"))
-        location=str(request.form.get("location"))
-        claim=str(request.form.get("claim"))
-        bio=str(request.form.get("bio"))
-        pricePerHour=str(request.form.get("price_per_hour"))
-        telephoneNumber=str(request.form.get("telephone_numbers"))
-        emails=str(request.form.get("emails"))
-        tagsNames=str(request.form.get("tags_names"))
+@app.route('/api/lecturer/<int:id>', methods=['PUT'])
+def editLecturer(id):  
+    try:  
+        if request.method=='PUT':
+            cur =mysql.connection.cursor()
+            cur.execute("SELECT * FROM table1 WHERE id=(%s)",(id,))
+            profile = cur.fetchone()
 
-        print(f"předtitul:{titleBefore}")
-
-        profileEdit=[id,titleBefore,firstName,middleName,lastName,titleAfter,pictureUrl,location,claim,bio,pricePerHour,telephoneNumber,emails,tagsNames]
-
-        for index,value in enumerate(profileEdit):
             
-            if value == "":
-                print(profileEdit[index],profile[index])
-                profileEdit[index]=profile[index]
-                
-        cur =mysql.connection.cursor()
-        cur.execute("UPDATE table1 SET title_before=%s, first_name=%s, middle_name=%s, last_name=%s, title_after=%s, picture_url=%s, location=%s, claim=%s, bio=%s, price_per_hour=%s, telephone_numbers=%s, emails=%s, tags_names=%s WHERE id=(%s)",(titleBefore, firstName, middleName, lastName, titleAfter, pictureUrl, location, claim, bio, pricePerHour, telephoneNumber, emails, tagsNames, id))
-        mysql.connection.commit()
-        cur.close()
-        cur =mysql.connection.cursor()
-        cur.execute("SELECT * FROM table1 WHERE id=(%s)",(id,))
-        profile = cur.fetchone()
-       
-        cur.close()
-        return render_template("card.html", profile=profile)
+            id=str(request.form.get("id"))
+            titleBefore=str(request.form.get("title_before_edit"))
+            firstName=str(request.form.get("first_name_edit"))
+            middleName=str(request.form.get("middle_name_edit"))
+            lastName=str(request.form.get("last_name_edit"))
+            titleAfter=str(request.form.get("title_after_edit"))
+            pictureUrl=str(request.form.get("picture_url_edit"))
+            location=str(request.form.get("location_edit"))
+            claim=str(request.form.get("claim_edit"))
+            bio=str(request.form.get("bio_edit"))
+            pricePerHour=str(request.form.get("price_per_hour_edit"))
+            telephoneNumbers=str(request.form.get("telephone_numbers_edit"))
+            emails=str(request.form.get("emails_edit"))
+            tagsNames=str(request.form.get("tags_names_edit"))
+
+            profileEdit=[id,titleBefore,firstName,middleName,lastName,titleAfter,pictureUrl,location,claim,bio,pricePerHour,telephoneNumbers,emails,tagsNames]
+
+            for value in profileEdit:
+                if value=="":
+                    continue
+                else:
+                    cur.execute("UPDATE table1 SET title_before=%s, first_name=%s, middle_name=%s, last_name=%s, title_after=%s, picture_url=%s, location=%s, claim=%s, bio=%s, tags_names=%s, price_per_hour=%s, telephone_numbers=%s, emails=%s WHERE id=%s",(titleBefore, firstName, middleName, lastName, titleAfter, pictureUrl, location, claim, bio,tagsNames, pricePerHour, telephoneNumbers, emails, id))
+                    mysql.connection.commit()
+            cur.close()
+            cur =mysql.connection.cursor()
+            cur.execute("SELECT * FROM table1 WHERE id=(%s)",(id,))
+            profile = cur.fetchone()
+        
+            cur.close()
+            return render_template("card.html", profile=profile)
+    except:
+        abort(404)
     
 
-@app.route('/api/lecturer/delete/uuid')
-def deleteLecturer():
-    pass
+@app.route('/api/lecturer/<int:id>', methods=['DELETE'])
+def deleteLecturer(id):
+    try:
+        if request.method=='DELETE':
+            cur =mysql.connection.cursor()
+            cur.execeute("DELETE FROM table1 where id=%s",id)
+            mysql.connection.commit()
+    except:
+        abort(404)
+
 
 
 #python -m flask --app app/app.py run
