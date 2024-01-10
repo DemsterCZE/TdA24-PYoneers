@@ -116,10 +116,10 @@ def showLecturer(id):
 def preEditLecturer(id):
     return render_template("lectureredit.html", id=id)
 
-@app.route('/api/lecturer/<int:id>', methods=['PUT'])
+@app.route('/api/lecturer/<int:id>', methods=['POST','PUT'])
 def editLecturer(id):  
     try:  
-        if request.method=='PUT':
+        if request.method=='PUT' or request.method=='POST':
             cur =mysql.connection.cursor()
             cur.execute("SELECT * FROM table1 WHERE id=(%s)",(id,))
             profile = cur.fetchone()
