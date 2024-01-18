@@ -73,66 +73,51 @@ def logic():
         cur.close()
         return render_template("index.html")
 
-
-@app.route('/api/lecturer')
-def showAll():
-    cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM table1')
-    profile = cur.fetchall()
-    print(profile)
-    cur.close()
-    return render_template("lecturershowall.html", profile=profile)
-
-@app.route('/api/lecturer/<int:id>')
-def showLecturer(id):
-    try:
-        cur =mysql.connection.cursor()
-        cur.execute("select * from table1 where id=(%s)",(id,))
-        profile = cur.fetchone()
-        print(profile[10])
-        cur.close()
-        return render_template("card.html", profile=profile)
-    except:
-        abort(404)
-
-@app.route('/api/lecturer/<int:id>/edit')
-def preEditLecturer(id):
-    return render_template("lectureredit.html", id=id)
-
-@app.route('/api/lecturer/<int:id>', methods=['PUT'])
-def editLecturer(id):  
-    try:  
-        if request.method=='PUT':
+@app.route('/api/lecturer/<int:id>', methods=["GET",'PUT',"DELETE"])
+def Lecturer(id):   
+    if request.method == "GET":
+        try:
+            cur =mysql.connection.cursor()
+            cur.execute("select * from table1 where id=(%s)",(id,))
+            profile = cur.fetchone()
+            print(profile[10])
+            cur.close()
+            return render_template("card.html", profile=profile)
+        except:
+            abort(404)
+    
+    elif request.method=='PUT':
+        try:
             cur =mysql.connection.cursor()
             cur.execute("SELECT * FROM table1 WHERE id=(%s)",(id,))
             profile = cur.fetchone()
 
-                
-                id=str(request.form.get("id"))
-                titleBefore=str(request.form.get("title_before_edit"))
-                firstName=str(request.form.get("first_name_edit"))
-                middleName=str(request.form.get("middle_name_edit"))
-                lastName=str(request.form.get("last_name_edit"))
-                titleAfter=str(request.form.get("title_after_edit"))
-                pictureUrl=str(request.form.get("picture_url_edit"))
-                location=str(request.form.get("location_edit"))
-                claim=str(request.form.get("claim_edit"))
-                bio=str(request.form.get("bio_edit"))
-                pricePerHour=str(request.form.get("price_per_hour_edit"))
-                telephoneNumbers=str(request.form.get("telephone_numbers_edit"))
-                emails=str(request.form.get("emails_edit"))
-                tagsNames=str(request.form.get("tags_names_edit"))
+                    
+            id=str(request.form.get("id"))
+            titleBefore=str(request.form.get("title_before_edit"))
+            firstName=str(request.form.get("first_name_edit"))
+            middleName=str(request.form.get("middle_name_edit"))
+            lastName=str(request.form.get("last_name_edit"))
+            titleAfter=str(request.form.get("title_after_edit"))
+            pictureUrl=str(request.form.get("picture_url_edit"))
+            location=str(request.form.get("location_edit"))
+            claim=str(request.form.get("claim_edit"))
+            bio=str(request.form.get("bio_edit"))
+            pricePerHour=str(request.form.get("price_per_hour_edit"))
+            telephoneNumbers=str(request.form.get("telephone_numbers_edit"))
+            emails=str(request.form.get("emails_edit"))
+            tagsNames=str(request.form.get("tags_names_edit"))
 
-                profileEdit=[id,titleBefore,firstName,middleName,lastName,titleAfter,pictureUrl,location,claim,bio,pricePerHour,telephoneNumbers,emails,tagsNames]
+            profileEdit=[id,titleBefore,firstName,middleName,lastName,titleAfter,pictureUrl,location,claim,bio,pricePerHour,telephoneNumbers,emails,tagsNames]
 
-                for value in profileEdit:
-                    if value=="":
-                        continue
-                    else:
-                        cur.execute("UPDATE table1 SET title_before=%s, first_name=%s, middle_name=%s, last_name=%s, title_after=%s, picture_url=%s, location=%s, claim=%s, bio=%s, tags_names=%s, price_per_hour=%s, telephone_numbers=%s, emails=%s WHERE id=%s",(titleBefore, firstName, middleName, lastName, titleAfter, pictureUrl, location, claim, bio,tagsNames, pricePerHour, telephoneNumbers, emails, id))
-                        mysql.connection.commit()
+            for value in profileEdit:
+                if value=="":
+                    continue
+                else:
+                    cur.execute("UPDATE table1 SET title_before=%s, first_name=%s, middle_name=%s, last_name=%s, title_after=%s, picture_url=%s, location=%s, claim=%s, bio=%s, tags_names=%s, price_per_hour=%s, telephone_numbers=%s, emails=%s WHERE id=%s",(titleBefore, firstName, middleName, lastName, titleAfter, pictureUrl, location, claim, bio,tagsNames, pricePerHour, telephoneNumbers, emails, id))
+                    mysql.connection.commit()
                 cur.close()
-                cur =mysql.connection.cursor()
+                cur = mysql.connection.cursor()
                 cur.execute("SELECT * FROM table1 WHERE id=(%s)",(id,))
                 profile = cur.fetchone()
             
