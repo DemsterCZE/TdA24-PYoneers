@@ -71,29 +71,41 @@ def logic():
         cur.execute("INSERT INTO table1 (title_before, first_name, middle_name, last_name, title_after, picture_url, location, claim, bio, price_per_hour, telephone_numbers, emails, tags_names) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (title_before, first_name, middle_name, last_name, title_after, picture_url, location, claim, bio, price_per_hour, telephone_numbers, emails, tags_names))
         mysql.connection.commit()
         cur.close()
-        return render_template("lecturershowall.html")  
+        return render_template("index.html")
 
 
+@app.route('/api/lecturer')
+def showAll():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM table1')
+    profile = cur.fetchall()
+    print(profile)
+    cur.close()
+    return render_template("lecturershowall.html", profile=profile)
 
+@app.route('/api/lecturer/<int:id>')
+def showLecturer(id):
+    try:
+        cur =mysql.connection.cursor()
+        cur.execute("select * from table1 where id=(%s)",(id,))
+        profile = cur.fetchone()
+        print(profile[10])
+        cur.close()
+        return render_template("card.html", profile=profile)
+    except:
+        abort(404)
 
-@app.route('/api/lecturers/<int:id>',methods=["GET","PUT","DELETE"])
-def lecturer(id):
-    if request.method == "GET":
-        try:
+@app.route('/api/lecturer/<int:id>/edit')
+def preEditLecturer(id):
+    return render_template("lectureredit.html", id=id)
+
+@app.route('/api/lecturer/<int:id>', methods=['PUT'])
+def editLecturer(id):  
+    try:  
+        if request.method=='PUT':
             cur =mysql.connection.cursor()
-            cur.execute("select * from table1 where id=(%s)",(id,))
+            cur.execute("SELECT * FROM table1 WHERE id=(%s)",(id,))
             profile = cur.fetchone()
-            print(profile[10])
-            cur.close()
-            return render_template("card.html", profile=profile)
-        except:
-            abort(404)
-    elif request.method == "PUT":
-        try:  
-            if request.method=='PUT':
-                cur =mysql.connection.cursor()
-                cur.execute("SELECT * FROM table1 WHERE id=(%s)",(id,))
-                profile = cur.fetchone()
 
                 
                 id=str(request.form.get("id"))
