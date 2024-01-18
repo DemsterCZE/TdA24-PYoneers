@@ -2,105 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{url_for('static',filename='assets/arrow/png/black-blue.png')}}">
+    <title>Lecturers</title>
+    <style>
+        table {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+          }
 
-    <title>TdA - {% if profile.title_before != null: %}{{ profile.title_before }} {% endif %}{{ profile.first_name }}{%
-        if profile.middle_name != null: %} {{ profile.middle_name }}{% endif %} {{ profile.last_name }}{% if
-        profile.title_after != null: %}, {{ profile.title_after }}{% endif %}</title>
+          table td, table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+          }
+
+          table tr:nth-child(even){background-color: #f2f2f2;}
+
+          table tr:hover {background-color: #ddd;}
+
+            table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+          }
+    </style>
 </head>
+<body style="background-color: grey;">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Titul</th>
+            <th>Jméno</th>
+            <th>Prostřední jméno</th>
+            <th>Příjmení</th>
+            <th>Titul po</th>
+            <th>Profilovka</th>
+            <th>Lokace</th>
+            <th>Citát</th>
+            <th>Biografie</th>
+            <th>Tag</th>
+            <th>Cena za hodinu</th>
+            <th>Telefonní čísla</th>
+            <th>E-Maily</th>
+        </tr>
+        <tr>
+            {% for row in data %}
+            {% set index = namespace(value=0) %}
+                {% for cell in row %}
+                    {%if index.value != 6 %}
+                        <td>{{cell}}</td>
+                    {%else%}
+                        <td><img src="{{cell}}" alt="chyba" width="150" height="150" style="border-radius: 50%;"></td>
+                    {%endif%}
+                    {% set index.value = index.value + 1 %}
+                {% endfor %}
+        </tr>
+        {% endfor %}
 
-<body class="bg-dark">
-{% for profile in profile %}
-
-<div class="row w-100 justify-content-center">
-    <div class="col-12 col-lg-8 m-5 card">
-        <div class="card-header">
-            <h1>{% if profile.title_before != null: %}{{ profile.title_before }} {% endif %}{{ profile.first_name }}{%
-                if profile.middle_name != null: %} {{ profile.middle_name }}{% endif %} {{ profile.last_name }}{% if
-                profile.title_after != null: %}, {{ profile.title_after }}{% endif %}</h1>
-        </div>
-
-        <div class="card-body row">
-            {% if profile.picture_url != null: %}
-            <div class="text-center col-12 col-lg-4">
-                <img class="w-100 rounded-4" src="{{ profile.picture_url }}"
-                     alt="{{ profile.first_name }} {{ profile.last_name }}">
-            </div>
-            {% endif %}
-
-            <div class="col-12 col-lg-8">
-                <ul class="list-unstyled">
-                    {% if profile.claim != null: %}
-                    <li>
-                        <h5>
-                            <i class="fa fa-quote-right"></i>
-                            Osobní citát: {{ profile.claim }}
-                        </h5>
-                    </li>
-                    {% endif %}
-                    {% if profile.location != null: %}
-                    <li>
-                        <h5>
-                            <i class="fa fa-location-arrow"></i>
-                            Lokace: {{ profile.location }}
-                        </h5>
-                    </li>
-                    {% endif %}
-                    {% if profile.price_per_hour != null: %}
-                    <li>
-                        <h5>
-                            <i class="fa fa-dollar"></i>
-                            Hodinová sazba: {{ profile.price_per_hour }} CZK
-                        </h5>
-                    </li>
-                    {% endif %}
-                </ul>
-
-                <h5><i class="fa fa fa-tag"></i> Tagy:</h5>
-                <ul>
-                    {% for tag in profile.tags %}
-                    <li>{{ tag.name }}</li>
-                    {% endfor %}
-                </ul>
-
-                <h5><i class="fa fa fa-phone"></i> Telefonní čísla:</h5>
-                <ul>
-                    
-                    {% for item in profile.numbers %}
-                    <li>{{ item }}</li>
-                    {% endfor %} 
-               
-                </ul>
-
-                <h5><i class="fa fa-at"></i> E-mailové adresy:</h5>
-                <ul>
-                    
-                    {% for item in profile.emails %}
-                    <li>{{ item }}</li>
-                    {% endfor %} 
-                
-                </ul>
-
-                {% if profile.bio != null: %}
-                <hr>
-                <a>{{ profile.bio | safe }}</a>
-                {% endif %}
-            </div>
-        </div>
-
-
-    </div>
-</div>
-
-{% endfor %}
-
-
-<script src="{{url_for('static',filename='js/main.js')}}"></script>
-
+    </table>
 </body>
 </html>
